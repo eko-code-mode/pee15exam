@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEE15-M Module 2 Reviewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&family=STIX+Two+Text:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #eef3ff;
+      --bg-soft: #ffffff;
+      --surface: #ffffff;
+      --surface-2: #f7f9ff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #2563eb;
+      --accent-2: #0ea5e9;
+      --ok: #22c55e;
+      --border: #d7def0;
+      --hero-glow: rgba(37, 99, 235, 0.14);
+      --formula-bg: #eff6ff;
+      --formula-border: #1d4ed8;
+      --mark-bg: #fef08a;
+      --mark-text: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background: linear-gradient(180deg, #e8eeff 0%, #f6f9ff 60%);
+      color: var(--text);
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    #readingProgress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      z-index: 1000;
+    }
+
+    .container {
+      width: min(980px, 92%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(800px 260px at 10% -20%, var(--hero-glow), transparent),
+        radial-gradient(500px 200px at 90% 10%, var(--hero-glow), transparent),
+        linear-gradient(160deg, var(--bg-soft), var(--bg));
+      padding: 2.25rem 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .tag {
+      margin: 0 0 0.5rem;
+      color: var(--accent-2);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.3vw, 2.2rem);
+      font-family: "Poppins", "Inter", sans-serif;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-top: 0.65rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: #071225;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 0.6rem 0.95rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:hover {
+      filter: brightness(1.07);
+      box-shadow: 0 8px 18px rgba(2, 8, 23, 0.24);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    main {
+      padding: 1rem 0 2.5rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1rem 1.1rem;
+      margin: 1rem 0;
+      box-shadow: 0 8px 22px rgba(2, 8, 23, 0.16);
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .tools input {
+      width: 100%;
+      padding: 0.72rem 0.82rem;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      color: var(--text);
+      outline: none;
+    }
+
+    .tools input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(108, 168, 255, 0.25);
+    }
+
+    .search-status {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    h2,
+    h3 {
+      margin-top: 0.2rem;
+      font-family: "Poppins", "Inter", sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    .toc ul {
+      margin: 0.4rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    .toc a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .grid.two {
+      display: grid;
+      gap: 0.7rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      padding: 0.85rem 0.9rem;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .mini-card:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .formula-list p {
+      margin: 0.5rem 0;
+    }
+
+    code {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.14rem 0.35rem;
+    }
+
+    .formula-list code,
+    #examples code,
+    .equation {
+      display: block;
+      background: var(--formula-bg);
+      border: 1px solid var(--formula-border);
+      color: #0f172a;
+      padding: 0.45rem 0.6rem;
+      border-radius: 9px;
+      font-weight: 600;
+      box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.16);
+      font-family: "STIX Two Text", "Times New Roman", serif;
+      letter-spacing: 0.01em;
+    }
+
+    body.formula-boost .formula-list code,
+    body.formula-boost #examples code,
+    body.formula-boost .equation {
+      transform: scale(1.03);
+      box-shadow:
+        0 0 0 1px rgba(125, 211, 252, 0.38),
+        0 0 20px rgba(96, 165, 250, 0.3);
+    }
+
+    .equation {
+      margin: 0.45rem 0;
+      overflow-x: auto;
+    }
+
+    .solution-note {
+      font-family: "STIX Two Text", "Inter", serif;
+      color: var(--text);
+      font-weight: 600;
+      margin: 0.35rem 0;
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      line-height: 1.1;
+      margin: 0 0.12rem;
+      min-width: 2.8ch;
+    }
+
+    .frac .top {
+      border-bottom: 1px solid currentColor;
+      padding: 0 0.2rem 0.06rem;
+    }
+
+    .frac .bottom {
+      padding: 0.05rem 0.2rem 0;
+    }
+
+    .hint {
+      color: var(--muted);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      background: #101a30;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 0.75rem;
+      margin-bottom: 0.65rem;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .q {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 0.8rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .q label {
+      display: block;
+      margin: 0.2rem 0;
+    }
+
+    .result {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 0.8rem;
+    }
+
+    .result.ok {
+      color: var(--ok);
+    }
+
+    .hidden-by-search {
+      display: none;
+    }
+
+    mark {
+      background: var(--mark-bg);
+      color: var(--mark-text);
+      border-radius: 4px;
+      padding: 0 0.1rem;
+    }
+
+    body.hide-solutions #examples .equation {
+      filter: blur(4px);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .to-top {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      display: none;
+      z-index: 30;
+    }
+
+    .to-top.show {
+      display: inline-block;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      padding: 1rem 0 1.5rem;
+    }
+
+    @media (max-width: 780px) {
+      .hero {
+        padding-top: 1rem;
+        position: static;
+      }
+
+      .tools {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .container {
+        width: min(980px, 95%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="readingProgress" aria-hidden="true"></div>
+  <header class="hero">
+    <div class="container">
+      <p class="tag">PEE15-M • Distribution System and Substation Design</p>
+      <h1>Module 2: Load Characteristics Reviewer</h1>
+      <p class="subtitle">
+        Full-content reviewer version with complete terms, formulas, and worked examples from the module.
+      </p>
+      <div class="hero-actions">
+        <a href="#characteristics" class="btn">Go to Formula Sheet</a>
+        <a href="#quiz" class="btn btn-ghost">Take Quick Quiz</a>
+        <a href="practice-website.html" class="btn btn-ghost">Open Practice Website</a>
+        <button type="button" id="formulaToggle" class="btn btn-ghost">Formula Focus</button>
+        <button type="button" id="solutionToggle" class="btn btn-ghost">Hide Solutions</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="toc card">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#intro">I. Introduction</a></li>
+        <li><a href="#nature">II. Nature of Loads</a></li>
+        <li><a href="#definitions">III. Loads - Definition of Terms</a></li>
+        <li><a href="#system-pf">System Power Factor</a></li>
+        <li><a href="#curves">Load Curves and Load Duration Curves</a></li>
+        <li><a href="#characteristics">Load Characteristic Terms</a></li>
+        <li><a href="#examples">IV. Problem Solving</a></li>
+        <li><a href="#quiz">Optional Self-Check Quiz</a></li>
+      </ul>
+    </nav>
+
+    <section class="card tools">
+      <input id="searchInput" type="search" placeholder="Search terms, formulas, or examples..." />
+      <button type="button" id="clearSearch" class="btn btn-ghost">Clear Search</button>
+      <button type="button" id="expandExamples" class="btn btn-ghost">Highlight Examples</button>
+      <p id="searchStatus" class="search-status">Type to filter the page content instantly.</p>
+    </section>
+
+    <section id="intro" class="card">
+      <h2>I. Introduction</h2>
+      <p>
+        In as much as the sole purpose for the existence of an electrical distribution system lies in
+        supplying the requirements of the consumer's utilization devices, it is fundamental that a
+        knowledge of these load requirements is necessary for sound planning of the distribution system
+        and its various components. The economic importance of the knowledge of load characteristics
+        has become more and more recognized with the growth of load on utility systems.
+      </p>
+      <p>
+        In recent years, much work has been done in this field. Many utilities have made and are
+        continuing to make, in some form, surveys of the load on their systems. Information obtained
+        from utility load surveys can be used for many purposes other than distribution system planning
+        and optimum equipment design. Often, data from the same load survey is used in studies of rate
+        structure, cost analysis, and development of selective selling programs.
+      </p>
+    </section>
+
+    <section id="nature" class="card">
+      <h2>II. Nature of Loads</h2>
+      <ul>
+        <li>
+          The load that an individual customer or a group of customers presents to the distribution
+          system is constantly changing.
+        </li>
+        <li>
+          Every time a light bulb or an electrical appliance is switched on or off, the load seen by
+          the distribution feeder changes.
+        </li>
+      </ul>
+    </section>
+
+    <section id="definitions" class="card">
+      <h2>III. Loads - Definition of Terms</h2>
+      <p><strong>Loads</strong> - Electrical power needed in kVA or kW.</p>
+      <ul>
+        <li>To indicate a device or a collection of equipment which uses electrical energy.</li>
+        <li>The power required from a given supply circuit.</li>
+        <li>The electrical load that indicates the current or power passing through the line or machine.</li>
+      </ul>
+
+      <h3>Broad Classification of Loads</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Classification</th>
+              <th>Examples / Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Domestic and Residential Loads</td><td>Household lighting and appliances</td></tr>
+            <tr><td>Only Lighting Loads</td><td>Street lights and similar public lighting</td></tr>
+            <tr><td>Commercial Loads</td><td>Shops, business establishments, hospitals</td></tr>
+            <tr><td>Industrial Loads</td><td>Factories and process-related loads</td></tr>
+            <tr><td>Agricultural and Rural Loads</td><td>Irrigation pumping and seasonal rural usage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Notes from the Module</h3>
+      <ol>
+        <li>All these loads will have peak demands at different times and for different durations.</li>
+        <li>Industrial and commercial loads may have two peak load periods.</li>
+        <li>Agricultural loads are seasonal and vary very differently.</li>
+        <li>
+          Lighting loads such as street lighting may have almost zero demand during daytime and
+          nearly constant load during nighttime.
+        </li>
+      </ol>
+    </section>
+
+    <section id="system-pf" class="card">
+      <h2>System Power Factor</h2>
+      <p>
+        In AC systems, <strong>kVA demand</strong> is more appropriate than kW demand, and load power
+        factor is important.
+      </p>
+      <p>Typical power factor values in the module:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Load Type</th>
+              <th>Typical p.f.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Fluorescent lamps</td><td>0.6</td></tr>
+            <tr><td>Arc lamps and neon signs</td><td>0.4 to 0.7</td></tr>
+            <tr><td>Fans and small motors</td><td>0.5 to 0.8</td></tr>
+            <tr><td>Electronic gadgets</td><td>0.6 to 0.8</td></tr>
+            <tr><td>Domestic appliance</td><td>0.6 to 0.7</td></tr>
+            <tr><td>F.H.p. motors (1 kW or less)</td><td>0.4 to 0.75</td></tr>
+            <tr><td>Water pumps (large size ≥ 5 h.p)</td><td>0.65 to 0.8</td></tr>
+            <tr><td>Chemical industries</td><td>0.70 to 0.85</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="curves" class="card">
+      <h2>Load Curves and Load Duration Curves</h2>
+      <h3>Load Curve</h3>
+      <p>
+        Represents load in its time sequence. It is obtained by plotting station load along the Y-axis
+        and the time when it occurs along the X-axis. Usually, the plot is for one day using average
+        load based on a time interval Δt (commonly one hour). The area under the curve represents the
+        total energy consumed by the load in one day.
+      </p>
+
+      <h3>Load Duration Curve</h3>
+      <p>
+        Represents the same load-versus-time data, but ordinates are rearranged in magnitude sequence
+        (not time sequence). Greatest load is plotted on the left, then lower loads toward the right,
+        and least load on the extreme right.
+      </p>
+
+      <ul>
+        <li>The areas under the load curve and load duration curve are equal.</li>
+        <li>Each area represents total units consumed during the period (for daily case: 24 hours).</li>
+        <li>Load duration curves can be daily, weekly, monthly, or annual.</li>
+        <li>Sometimes plots are done in per-unit values.</li>
+      </ul>
+    </section>
+
+    <section id="characteristics" class="card">
+      <h2>Load Characteristic Terms and Formulas</h2>
+      <p>The load characteristics play an important role in:</p>
+      <ul>
+        <li>Determining total power and energy requirements of the system.</li>
+        <li>Planning the installed capacity of a power plant.</li>
+        <li>Selecting suitable generating capacity for each unit of the plant.</li>
+      </ul>
+
+      <h3>Demand</h3>
+      <p>
+        Load at receiving terminal averaged over a specific period of time; power requirement
+        (in kVA, kW, or A) at the load averaged over a specified voltage level.
+      </p>
+
+      <h3>Demand Intervals</h3>
+      <p>
+        Time interval specified for demand (<code>Di</code>), usually 15 minutes or 30 minutes.
+        Obtained from daily demand curves or load duration curves.
+      </p>
+
+      <h3>Maximum Demand (Peak Load)</h3>
+      <p>
+        The greatest of all demands that have occurred during a specified period (daily, monthly,
+        yearly). It may always be less than connected load.
+      </p>
+
+      <h3>Connected Load</h3>
+      <p>Sum of continuous ratings of all load-consuming apparatus connected to the system.</p>
+
+      <h3>Average Load</h3>
+      <p>Average power consumed by the load in a given period (usually day or month):</p>
+      <div class="formula-list">
+        <p class="equation">
+          Average Load =
+          <span class="frac"><span class="top">W</span><span class="bottom">T</span></span>
+          =
+          <span class="frac"><span class="top">kWhr</span><span class="bottom">No. of Hrs</span></span>
+        </p>
+        <p class="equation">
+          A.L. DAILY =
+          <span class="frac"><span class="top">kWhr generated in a day</span><span class="bottom">24 Hrs</span></span>
+        </p>
+        <p class="equation">
+          A.L. MONTHLY =
+          <span class="frac"><span class="top">kWhr generated in a month</span><span class="bottom">No. of Hrs in a month</span></span>
+        </p>
+        <p class="equation">
+          A.L. YEARLY =
+          <span class="frac"><span class="top">kWhr generated in a year</span><span class="bottom">8760 Hrs</span></span>
+        </p>
+        <p class="equation">W = electrical energy consumption in period of hours (T)</p>
+        <p class="equation">T = periodic time in hours</p>
+      </div>
+
+      <h3>Demand Factor</h3>
+      <div class="formula-list">
+        <p class="equation">
+          Demand Factor =
+          <span class="frac"><span class="top">Maximum Demand</span><span class="bottom">Total Connected Load</span></span>
+        </p>
+        <p>It is always less than 1.</p>
+      </div>
+
+      <h3>Load Factor</h3>
+      <div class="formula-list">
+        <p class="equation">
+          Load Factor =
+          <span class="frac"><span class="top">Average Load</span><span class="bottom">Maximum Demand</span></span>
+        </p>
+        <p>Indicates how well the utility facilities are being utilized.</p>
+      </div>
+
+      <h3>Diversified Demand and Maximum Diversified Demand</h3>
+      <ul>
+        <li><strong>Diversified Demand:</strong> demands imposed by a group of loads over a period.</li>
+        <li><strong>Maximum Diversified Demand:</strong> sum of demands imposed by a group of loads over a period.</li>
+      </ul>
+
+      <h3>Diversity Factor</h3>
+      <div class="formula-list">
+        <p class="equation">
+          Diversity Factor =
+          <span class="frac"><span class="top">Sum of individual maximum demands</span><span class="bottom">Maximum system demand</span></span>
+        </p>
+      </div>
+
+      <h3>Utilization Factor</h3>
+      <div class="formula-list">
+        <p class="equation">
+          Utilization Factor =
+          <span class="frac"><span class="top">Maximum Demand</span><span class="bottom">Rated System Capacity</span></span>
+        </p>
+        <p>Indicates how well electrical device capacity is being utilized.</p>
+      </div>
+
+      <h3>Loss Factor</h3>
+      <div class="formula-list">
+        <p class="equation">
+          Loss Factor =
+          <span class="frac"><span class="top">Average Power Loss</span><span class="bottom">Power Loss at Peak Load</span></span>
+        </p>
+        <p>
+          Referred to variable power losses (copper losses, conductor/winding losses), not no-load
+          losses in transformers.
+        </p>
+        <p class="equation">Under steady load: Loss Factor = Load Factor</p>
+        <p class="equation">For short-lasting peak: Loss Factor = (Load Factor)²</p>
+      </div>
+    </section>
+
+    <section id="examples" class="card">
+      <h2>IV. Problem Solving</h2>
+
+      <article class="mini-card">
+        <h3>1) A residence having 6000 W equipment connected has a maximum demand of 3300 W. What is the demand factor?</h3>
+        <p class="equation">
+          Demand Factor =
+          <span class="frac"><span class="top">Max. Demand</span><span class="bottom">Total Connected Load</span></span>
+        </p>
+        <p class="equation">
+          =
+          <span class="frac"><span class="top">3300 W</span><span class="bottom">6000 W</span></span>
+          = 0.55 = 55%
+        </p>
+        <p>The lower the demand factor, the less system capacity required to serve the connected load.</p>
+      </article>
+
+      <article class="mini-card">
+        <h3>2) A generating station has a connected load of 50 MW and a maximum demand of 30 MW. Determine the demand factor.</h3>
+        <p class="equation">
+          Demand Factor =
+          <span class="frac"><span class="top">30 MW</span><span class="bottom">50 MW</span></span>
+          = 0.6 = 60%
+        </p>
+      </article>
+
+      <article class="mini-card">
+        <h3>3) There are five 20 W bulbs connected to your home's electrical system. However, only four bulbs are used at a time. Find the demand factor.</h3>
+        <p class="equation">Total Connected Load = 5 × 20 W = 100 W</p>
+        <p class="equation">Maximum Demand = 4 × 20 W = 80 W</p>
+        <p class="equation">
+          Demand Factor =
+          <span class="frac"><span class="top">80 W</span><span class="bottom">100 W</span></span>
+          = 0.8 = 80%
+        </p>
+      </article>
+
+      <article class="mini-card">
+        <h3>4) Feeder supplying three distribution transformers with stated connected loads and demand factors; diversity factor among transformers is 1.5. Determine feeder maximum load.</h3>
+        <p class="solution-note"><strong>Given data table (as used in module solution):</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Transformer</th>
+                <th>Connected Load (kW)</th>
+                <th>Demand Factor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>T1</td><td>15</td><td>0.70</td></tr>
+              <tr><td>T2</td><td>10</td><td>0.65</td></tr>
+              <tr><td>T3</td><td>13</td><td>0.50</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="equation">
+          Required: Maximum System Demand =
+          <span class="frac"><span class="top">Sum of individual max demands</span><span class="bottom">Diversity Factor</span></span>
+        </p>
+        <p class="equation">Step 1: Sum of Individual Max Demands = Connected Load × Demand Factor</p>
+        <p class="equation">Transformer 1: 15 kW × 0.7 = 10.5 kW</p>
+        <p class="equation">Transformer 2: 10 kW × 0.65 = 6.5 kW</p>
+        <p class="equation">Transformer 3: 13 kW × 0.5 = 6.5 kW</p>
+        <p class="solution-note"><strong>Step 2 (module values):</strong></p>
+        <p class="equation">
+          Maximum System Demand<sub>T1</sub> =
+          <span class="frac"><span class="top">10.5</span><span class="bottom">1.3</span></span>
+          = 8.08 kW
+        </p>
+        <p class="equation">
+          Maximum System Demand<sub>T2</sub> =
+          <span class="frac"><span class="top">6.5</span><span class="bottom">3</span></span>
+          = 2.167 kW
+        </p>
+        <p class="equation">
+          Maximum System Demand<sub>T3</sub> =
+          <span class="frac"><span class="top">6.5</span><span class="bottom">1.4</span></span>
+          = 4.64 kW
+        </p>
+        <p class="solution-note"><strong>Step 3:</strong></p>
+        <p class="equation">
+          Maximum System Demand<sub>Feeder</sub> =
+          <span class="frac"><span class="top">(8.08 + 2.167 + 4.64)</span><span class="bottom">1.5</span></span>
+          = 9.925 kW
+        </p>
+      </article>
+
+      <article class="mini-card">
+        <h3>5) If units generated per year by a power station is 45×10⁵ kWhr, determine annual average load.</h3>
+        <p class="equation">
+          Annual Average Load =
+          <span class="frac"><span class="top">Units generated in a year</span><span class="bottom">No. of hrs in a year</span></span>
+        </p>
+        <p class="equation">
+          =
+          <span class="frac"><span class="top">45×10⁵</span><span class="bottom">8760</span></span>
+          = 513.7 kW
+        </p>
+      </article>
+
+      <article class="mini-card">
+        <h3>6) A power station has maximum demand of 150 MW with annual load factor of 50%. Calculate energy generated per annum.</h3>
+        <p class="equation">Average Load = Load Factor × Maximum Demand × No. of hrs per annum</p>
+        <p class="equation">= 0.50 × 150 MW × 8760 = 657 × 10⁶ kWhr</p>
+      </article>
+
+      <article class="mini-card">
+        <h3>7) A power plant supplies several consumer loads. Maximum station demand is 2500 kW and annual generation is 45×10⁵ kWhr. Determine diversity factor and annual load factor.</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Consumer Category</th>
+                <th>Load (kW)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Industrial Consumers</td><td>1500</td></tr>
+              <tr><td>Commercial Consumers</td><td>750</td></tr>
+              <tr><td>Domestic Power</td><td>100</td></tr>
+              <tr><td>Domestic Light</td><td>450</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="equation">
+          Diversity Factor =
+          <span class="frac"><span class="top">(1500 + 750 + 100 + 450)</span><span class="bottom">2500</span></span>
+          = 1.12
+        </p>
+        <p class="equation">
+          Average Load =
+          <span class="frac"><span class="top">45×10⁵</span><span class="bottom">8760</span></span>
+          = 513.69 kW
+        </p>
+        <p class="equation">
+          Load Factor =
+          <span class="frac"><span class="top">513.69</span><span class="bottom">2500</span></span>
+          = 0.205
+        </p>
+      </article>
+
+      <article class="mini-card">
+        <h3>8) Let a 15 kVA transformer serve a load of 16.16 kW at 0.9 pf lagging. Find utilization factor.</h3>
+        <p class="equation">
+          Maximum Demand (kVA) =
+          <span class="frac"><span class="top">16.16</span><span class="bottom">0.9</span></span>
+          = 17.96 kVA
+        </p>
+        <p class="equation">
+          Utilization Factor =
+          <span class="frac"><span class="top">Maximum Demand</span><span class="bottom">Rated System Capacity</span></span>
+        </p>
+        <p class="equation">
+          =
+          <span class="frac"><span class="top">17.96</span><span class="bottom">15</span></span>
+          = 1.197
+        </p>
+      </article>
+    </section>
+
+    <section id="quiz" class="card">
+      <h2>Self-Check Quiz</h2>
+      <p>Pick the best answer, then click <strong>Check Score</strong>.</p>
+      <form id="quizForm">
+        <div class="q">
+          <p>1) Which ratio is always less than 1?</p>
+          <label><input type="radio" name="q1" value="a" /> Diversity Factor</label>
+          <label><input type="radio" name="q1" value="b" /> Demand Factor</label>
+          <label><input type="radio" name="q1" value="c" /> Utilization Factor</label>
+        </div>
+
+        <div class="q">
+          <p>2) Area under daily load curve represents:</p>
+          <label><input type="radio" name="q2" value="a" /> Maximum demand</label>
+          <label><input type="radio" name="q2" value="b" /> Power factor</label>
+          <label><input type="radio" name="q2" value="c" /> Total energy consumed</label>
+        </div>
+
+        <div class="q">
+          <p>3) Average Load formula is:</p>
+          <label><input type="radio" name="q3" value="a" /> kWh / hours</label>
+          <label><input type="radio" name="q3" value="b" /> Max demand / connected load</label>
+          <label><input type="radio" name="q3" value="c" /> Connected load / max demand</label>
+        </div>
+
+        <button type="button" id="checkBtn" class="btn">Check Score</button>
+        <button type="reset" class="btn btn-ghost">Reset</button>
+      </form>
+      <p id="result" class="result" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Reviewer made from PEE15-M Module 2: Load Characteristics</p>
+    </div>
+  </footer>
+  <button id="toTop" class="to-top" type="button" aria-label="Back to top">↑</button>
+
+  <script>
+    const answers = {
+      q1: "b",
+      q2: "c",
+      q3: "a",
+    };
+
+    const quizForm = document.getElementById("quizForm");
+    const checkBtn = document.getElementById("checkBtn");
+    const result = document.getElementById("result");
+    const formulaToggle = document.getElementById("formulaToggle");
+    const solutionToggle = document.getElementById("solutionToggle");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearch = document.getElementById("clearSearch");
+    const searchStatus = document.getElementById("searchStatus");
+    const expandExamples = document.getElementById("expandExamples");
+    const toTop = document.getElementById("toTop");
+    const readingProgress = document.getElementById("readingProgress");
+    const searchableCards = [...document.querySelectorAll("main .card")];
+    let matches = 0;
+
+    checkBtn.addEventListener("click", () => {
+      let score = 0;
+      let answered = 0;
+      const total = Object.keys(answers).length;
+
+      Object.entries(answers).forEach(([name, correct]) => {
+        const selected = quizForm.querySelector(`input[name="${name}"]:checked`);
+        if (selected) {
+          answered += 1;
+          if (selected.value === correct) {
+            score += 1;
+          }
+        }
+      });
+
+      if (answered < total) {
+        result.classList.remove("ok");
+        result.textContent = `You answered ${answered}/${total}. Complete all items first.`;
+        return;
+      }
+
+      const percent = Math.round((score / total) * 100);
+      result.classList.add("ok");
+      result.textContent = `Score: ${score}/${total} (${percent}%).`;
+    });
+
+    quizForm.addEventListener("reset", () => {
+      result.classList.remove("ok");
+      result.textContent = "";
+    });
+
+    formulaToggle.addEventListener("click", () => {
+      document.body.classList.toggle("formula-boost");
+    });
+
+    solutionToggle.addEventListener("click", () => {
+      const hidden = document.body.classList.toggle("hide-solutions");
+      solutionToggle.textContent = hidden ? "Show Solutions" : "Hide Solutions";
+    });
+
+    function clearMarks(node) {
+      node.querySelectorAll("mark").forEach((mark) => {
+        const parent = mark.parentNode;
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize();
+      });
+    }
+
+    function markText(node, query) {
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+      const textNodes = [];
+      while (walker.nextNode()) {
+        textNodes.push(walker.currentNode);
+      }
+
+      textNodes.forEach((textNode) => {
+        const text = textNode.nodeValue;
+        const lower = text.toLowerCase();
+        const index = lower.indexOf(query);
+        if (index === -1) return;
+
+        const frag = document.createDocumentFragment();
+        const before = text.slice(0, index);
+        const match = text.slice(index, index + query.length);
+        const after = text.slice(index + query.length);
+        if (before) frag.appendChild(document.createTextNode(before));
+        const mark = document.createElement("mark");
+        mark.textContent = match;
+        frag.appendChild(mark);
+        if (after) frag.appendChild(document.createTextNode(after));
+        textNode.parentNode.replaceChild(frag, textNode);
+      });
+    }
+
+    function applySearch() {
+      const query = searchInput.value.trim().toLowerCase();
+      matches = 0;
+
+      searchableCards.forEach((card) => {
+        clearMarks(card);
+        if (!query) {
+          card.classList.remove("hidden-by-search");
+          return;
+        }
+
+        const content = card.textContent.toLowerCase();
+        const found = content.includes(query);
+        card.classList.toggle("hidden-by-search", !found);
+
+        if (found) {
+          matches += 1;
+          markText(card, query);
+        }
+      });
+
+      if (!query) {
+        searchStatus.textContent = "Type to filter the page content instantly.";
+      } else {
+        searchStatus.textContent = `${matches} section(s) matched "${query}".`;
+      }
+    }
+
+    searchInput.addEventListener("input", applySearch);
+    clearSearch.addEventListener("click", () => {
+      searchInput.value = "";
+      applySearch();
+      searchInput.focus();
+    });
+
+    expandExamples.addEventListener("click", () => {
+      const examples = document.querySelectorAll("#examples .mini-card");
+      examples.forEach((item) => item.scrollIntoView({ behavior: "smooth", block: "center" }));
+      document.body.classList.add("formula-boost");
+      setTimeout(() => document.body.classList.remove("formula-boost"), 1500);
+    });
+
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = height > 0 ? (scrollTop / height) * 100 : 0;
+      readingProgress.style.width = `${progress}%`;
+      toTop.classList.toggle("show", scrollTop > 260);
+    });
+
+    toTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEE15 Module 2 Practice Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&family=STIX+Two+Text:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f3f7ff;
+      --card: #ffffff;
+      --card-2: #f7f9ff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #2563eb;
+      --ok: #22c55e;
+      --bad: #ef4444;
+      --border: #d7def0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: linear-gradient(180deg, #e9efff 0%, var(--bg) 70%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .container {
+      width: min(1100px, 94%);
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 1.4rem 0 1.2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    h1, h2, h3 {
+      font-family: "Poppins", sans-serif;
+      margin: 0.25rem 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0.25rem 0 0.8rem;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn.alt {
+      background: transparent;
+      color: var(--text);
+    }
+
+    main {
+      padding: 1rem 0 2rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      margin: 0 0 1rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 0.8rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .question-list {
+      display: block;
+    }
+
+    .question-list .q {
+      margin-bottom: 0.7rem;
+    }
+
+    .q {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.8rem;
+      background: rgba(37, 99, 235, 0.03);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .q p {
+      margin: 0 0 0.45rem;
+    }
+
+    label {
+      display: block;
+      margin: 0.18rem 0;
+      cursor: pointer;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      border-radius: 9px;
+      padding: 0.5rem 0.55rem;
+      font-family: "Inter", sans-serif;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .q.is-correct {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25), 0 0 20px rgba(34, 197, 94, 0.22);
+    }
+
+    .q.is-wrong {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.22), 0 0 20px rgba(239, 68, 68, 0.2);
+    }
+
+    input.is-correct {
+      border-color: #22c55e !important;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.22), 0 0 16px rgba(34, 197, 94, 0.18);
+    }
+
+    input.is-wrong {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2), 0 0 16px rgba(239, 68, 68, 0.18);
+    }
+
+    .math {
+      font-family: "STIX Two Text", serif;
+      display: block;
+      background: #eff6ff;
+      border: 1px solid #1d4ed8;
+      border-radius: 8px;
+      padding: 0.35rem 0.5rem;
+      margin: 0.3rem 0;
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 1.1;
+      margin: 0 0.12rem;
+    }
+
+    .frac .top {
+      border-bottom: 1px solid currentColor;
+      padding: 0 0.2rem 0.08rem;
+    }
+
+    .frac .bottom {
+      padding: 0.05rem 0.2rem 0;
+    }
+
+    .result {
+      margin-top: 0.65rem;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: var(--ok);
+    }
+
+    .bad {
+      color: var(--bad);
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.5rem 0.6rem;
+      background: rgba(37, 99, 235, 0.03);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .key-intro {
+      color: var(--muted);
+      margin: 0.2rem 0 0.7rem;
+    }
+
+    .key-panel {
+      margin-top: 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 0.65rem;
+    }
+
+    .key-row {
+      display: grid;
+      gap: 0.45rem;
+      margin-bottom: 0.45rem;
+      grid-template-columns: 110px 1fr;
+      align-items: start;
+    }
+
+    .key-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .key-label {
+      font-weight: 700;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      text-align: center;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.86rem;
+    }
+
+    .key-value {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.35rem 0.5rem;
+      background: #f8fbff;
+      font-family: "STIX Two Text", serif;
+    }
+
+    .sol-steps {
+      margin: 0.55rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    .sol-steps li {
+      margin-bottom: 0.45rem;
+    }
+
+    .answer-list {
+      margin: 0.55rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    .answer-list li {
+      margin-bottom: 0.35rem;
+      padding: 0.25rem 0.35rem;
+      border-radius: 6px;
+    }
+
+    .answer-list li:nth-child(odd) {
+      background: #f8fbff;
+    }
+
+    @media (max-width: 700px) {
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>PEE15 Module 2 Practice Website</h1>
+      <p class="subtitle">
+        Complete drill set: 40 Multiple Choice, 20 Identification, and 20 Problem Solving questions
+        covering all discussions in Load Characteristics.
+      </p>
+      <div class="toolbar">
+        <a class="btn" href="#mcq">Go to MCQ</a>
+        <a class="btn alt" href="#identification">Go to Identification</a>
+        <a class="btn alt" href="#problems">Go to Problem Solving</a>
+        <a class="btn alt" href="#answer-key">Go to Answer Key</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Coverage Checklist</h2>
+      <div class="grid">
+        <div class="q">Introduction and role of load surveys</div>
+        <div class="q">Nature of loads and load classifications</div>
+        <div class="q">System power factor values</div>
+        <div class="q">Load curve and load duration curve</div>
+        <div class="q">All key terms and formulas</div>
+        <div class="q">Module-style numerical problem solving</div>
+      </div>
+    </section>
+
+    <section id="mcq" class="card">
+      <h2>Part A - 40 Multiple Choice Questions</h2>
+      <form id="mcqForm">
+        <div class="question-list">
+          <div class="q"><p>1) The main purpose of a distribution system is to:</p>
+            <label><input type="radio" name="m1" value="a"> A) Minimize transformer size</label>
+            <label><input type="radio" name="m1" value="b"> B) Supply consumer utilization requirements</label>
+            <label><input type="radio" name="m1" value="c"> C) Increase no-load losses</label>
+            <label><input type="radio" name="m1" value="d"> D) Eliminate feeders</label></div>
+
+          <div class="q"><p>2) Utility load survey data is used for all EXCEPT:</p>
+            <label><input type="radio" name="m2" value="a"> A) Rate structure studies</label>
+            <label><input type="radio" name="m2" value="b"> B) Cost analysis</label>
+            <label><input type="radio" name="m2" value="c"> C) Selective selling programs</label>
+            <label><input type="radio" name="m2" value="d"> D) Replacing all distribution lines yearly</label></div>
+
+          <div class="q"><p>3) Load seen by a feeder changes whenever:</p>
+            <label><input type="radio" name="m3" value="a"> A) A utility office closes</label>
+            <label><input type="radio" name="m3" value="b"> B) A motor is rewound</label>
+            <label><input type="radio" name="m3" value="c"> C) Devices are switched ON/OFF</label>
+            <label><input type="radio" name="m3" value="d"> D) Voltage is exactly nominal</label></div>
+
+          <div class="q"><p>4) Which is a broad load classification?</p>
+            <label><input type="radio" name="m4" value="a"> A) Wind tunnel load</label>
+            <label><input type="radio" name="m4" value="b"> B) Agricultural load</label>
+            <label><input type="radio" name="m4" value="c"> C) Space load</label>
+            <label><input type="radio" name="m4" value="d"> D) Temporary load</label></div>
+
+          <div class="q"><p>5) Lighting loads such as street lights are usually:</p>
+            <label><input type="radio" name="m5" value="a"> A) High in daytime</label>
+            <label><input type="radio" name="m5" value="b"> B) Zero all day</label>
+            <label><input type="radio" name="m5" value="c"> C) Near zero in daytime and active at night</label>
+            <label><input type="radio" name="m5" value="d"> D) Constant 24/7 at peak</label></div>
+
+          <div class="q"><p>6) Industrial/commercial loads may commonly have:</p>
+            <label><input type="radio" name="m6" value="a"> A) No peak periods</label>
+            <label><input type="radio" name="m6" value="b"> B) Exactly one yearly peak only</label>
+            <label><input type="radio" name="m6" value="c"> C) Two peak periods</label>
+            <label><input type="radio" name="m6" value="d"> D) Zero diversity</label></div>
+
+          <div class="q"><p>7) In AC systems, which demand is more appropriate for planning?</p>
+            <label><input type="radio" name="m7" value="a"> A) kVAR</label>
+            <label><input type="radio" name="m7" value="b"> B) kVA</label>
+            <label><input type="radio" name="m7" value="c"> C) W</label>
+            <label><input type="radio" name="m7" value="d"> D) MWh</label></div>
+
+          <div class="q"><p>8) Typical power factor of fluorescent lamps in module:</p>
+            <label><input type="radio" name="m8" value="a"> A) 0.2</label>
+            <label><input type="radio" name="m8" value="b"> B) 0.4</label>
+            <label><input type="radio" name="m8" value="c"> C) 0.6</label>
+            <label><input type="radio" name="m8" value="d"> D) 0.95</label></div>
+
+          <div class="q"><p>9) Typical p.f. of arc lamps/neon signs:</p>
+            <label><input type="radio" name="m9" value="a"> A) 0.4 to 0.7</label>
+            <label><input type="radio" name="m9" value="b"> B) 0.8 to 1.0</label>
+            <label><input type="radio" name="m9" value="c"> C) 0.1 to 0.3</label>
+            <label><input type="radio" name="m9" value="d"> D) exactly 1.0</label></div>
+
+          <div class="q"><p>10) Typical p.f. of fans/small motors:</p>
+            <label><input type="radio" name="m10" value="a"> A) 0.5 to 0.8</label>
+            <label><input type="radio" name="m10" value="b"> B) 0.2 to 0.4</label>
+            <label><input type="radio" name="m10" value="c"> C) 0.9 to 1.0</label>
+            <label><input type="radio" name="m10" value="d"> D) 0.0 to 0.2</label></div>
+
+          <div class="q"><p>11) Typical p.f. of electronic gadgets:</p>
+            <label><input type="radio" name="m11" value="a"> A) 0.1 to 0.2</label>
+            <label><input type="radio" name="m11" value="b"> B) 0.6 to 0.8</label>
+            <label><input type="radio" name="m11" value="c"> C) 0.85 to 1.0</label>
+            <label><input type="radio" name="m11" value="d"> D) exactly 0.5</label></div>
+
+          <div class="q"><p>12) Typical p.f. of domestic appliances:</p>
+            <label><input type="radio" name="m12" value="a"> A) 0.6 to 0.7</label>
+            <label><input type="radio" name="m12" value="b"> B) 0.2 to 0.3</label>
+            <label><input type="radio" name="m12" value="c"> C) 0.9 to 1.0</label>
+            <label><input type="radio" name="m12" value="d"> D) 0.0 to 0.1</label></div>
+
+          <div class="q"><p>13) Typical p.f. of water pumps (large size):</p>
+            <label><input type="radio" name="m13" value="a"> A) 0.65 to 0.8</label>
+            <label><input type="radio" name="m13" value="b"> B) 0.3 to 0.4</label>
+            <label><input type="radio" name="m13" value="c"> C) 0.95 to 1.0</label>
+            <label><input type="radio" name="m13" value="d"> D) exactly 0.5</label></div>
+
+          <div class="q"><p>14) Typical p.f. for chemical industries:</p>
+            <label><input type="radio" name="m14" value="a"> A) 0.40 to 0.55</label>
+            <label><input type="radio" name="m14" value="b"> B) 0.70 to 0.85</label>
+            <label><input type="radio" name="m14" value="c"> C) 0.90 to 1.0</label>
+            <label><input type="radio" name="m14" value="d"> D) 0.20 to 0.30</label></div>
+
+          <div class="q"><p>15) Load curve is plotted as:</p>
+            <label><input type="radio" name="m15" value="a"> A) Time on Y-axis, load on X-axis</label>
+            <label><input type="radio" name="m15" value="b"> B) Frequency vs current</label>
+            <label><input type="radio" name="m15" value="c"> C) Load on Y-axis, time on X-axis</label>
+            <label><input type="radio" name="m15" value="d"> D) Voltage on Y-axis, time on X-axis</label></div>
+
+          <div class="q"><p>16) Area under daily load curve represents:</p>
+            <label><input type="radio" name="m16" value="a"> A) Peak voltage</label>
+            <label><input type="radio" name="m16" value="b"> B) Total energy consumed</label>
+            <label><input type="radio" name="m16" value="c"> C) Diversity factor</label>
+            <label><input type="radio" name="m16" value="d"> D) Connected load</label></div>
+
+          <div class="q"><p>17) Load duration curve rearranges data by:</p>
+            <label><input type="radio" name="m17" value="a"> A) Alphabetical order</label>
+            <label><input type="radio" name="m17" value="b"> B) Time sequence</label>
+            <label><input type="radio" name="m17" value="c"> C) Magnitude sequence</label>
+            <label><input type="radio" name="m17" value="d"> D) Voltage class</label></div>
+
+          <div class="q"><p>18) Load duration curves can be:</p>
+            <label><input type="radio" name="m18" value="a"> A) Daily only</label>
+            <label><input type="radio" name="m18" value="b"> B) Monthly only</label>
+            <label><input type="radio" name="m18" value="c"> C) Annual only</label>
+            <label><input type="radio" name="m18" value="d"> D) Daily, weekly, monthly, annual</label></div>
+
+          <div class="q"><p>19) Demand is load averaged over a specific:</p>
+            <label><input type="radio" name="m19" value="a"> A) Phase angle</label>
+            <label><input type="radio" name="m19" value="b"> B) Period of time</label>
+            <label><input type="radio" name="m19" value="c"> C) Harmonic spectrum</label>
+            <label><input type="radio" name="m19" value="d"> D) Frequency band</label></div>
+
+          <div class="q"><p>20) Typical demand interval in module:</p>
+            <label><input type="radio" name="m20" value="a"> A) 5 s or 10 s</label>
+            <label><input type="radio" name="m20" value="b"> B) 1 h or 2 h</label>
+            <label><input type="radio" name="m20" value="c"> C) 15 min or 30 min</label>
+            <label><input type="radio" name="m20" value="d"> D) 24 h only</label></div>
+
+          <div class="q"><p>21) Maximum demand is generally:</p>
+            <label><input type="radio" name="m21" value="a"> A) Greater than connected load</label>
+            <label><input type="radio" name="m21" value="b"> B) Equal to no-load loss</label>
+            <label><input type="radio" name="m21" value="c"> C) Less than or equal connected load</label>
+            <label><input type="radio" name="m21" value="d"> D) Always zero</label></div>
+
+          <div class="q"><p>22) Connected load is the sum of:</p>
+            <label><input type="radio" name="m22" value="a"> A) Energy bills</label>
+            <label><input type="radio" name="m22" value="b"> B) Continuous ratings of connected apparatus</label>
+            <label><input type="radio" name="m22" value="c"> C) Peak voltages</label>
+            <label><input type="radio" name="m22" value="d"> D) Feeder lengths</label></div>
+
+          <div class="q"><p>23) Average load basic formula:</p>
+            <label><input type="radio" name="m23" value="a"> A) W × T</label>
+            <label><input type="radio" name="m23" value="b"> B) W/T</label>
+            <label><input type="radio" name="m23" value="c"> C) T/W</label>
+            <label><input type="radio" name="m23" value="d"> D) W + T</label></div>
+
+          <div class="q"><p>24) Demand factor equals:</p>
+            <label><input type="radio" name="m24" value="a"> A) Average load / max demand</label>
+            <label><input type="radio" name="m24" value="b"> B) Max demand / connected load</label>
+            <label><input type="radio" name="m24" value="c"> C) Connected load / max demand</label>
+            <label><input type="radio" name="m24" value="d"> D) Rated capacity / max demand</label></div>
+
+          <div class="q"><p>25) Demand factor is always:</p>
+            <label><input type="radio" name="m25" value="a"> A) Greater than 1</label>
+            <label><input type="radio" name="m25" value="b"> B) Equal to 1</label>
+            <label><input type="radio" name="m25" value="c"> C) Less than 1</label>
+            <label><input type="radio" name="m25" value="d"> D) Negative</label></div>
+
+          <div class="q"><p>26) Load factor indicates:</p>
+            <label><input type="radio" name="m26" value="a"> A) Ground resistance</label>
+            <label><input type="radio" name="m26" value="b"> B) Utilization of utility facilities</label>
+            <label><input type="radio" name="m26" value="c"> C) Transformer oil quality</label>
+            <label><input type="radio" name="m26" value="d"> D) Arc flash level</label></div>
+
+          <div class="q"><p>27) Diversity factor equals:</p>
+            <label><input type="radio" name="m27" value="a"> A) Max system demand / sum of individual max demands</label>
+            <label><input type="radio" name="m27" value="b"> B) Sum of individual max demands / max system demand</label>
+            <label><input type="radio" name="m27" value="c"> C) Max demand / rated capacity</label>
+            <label><input type="radio" name="m27" value="d"> D) Average loss / peak loss</label></div>
+
+          <div class="q"><p>28) Utilization factor equals:</p>
+            <label><input type="radio" name="m28" value="a"> A) Max demand / rated capacity</label>
+            <label><input type="radio" name="m28" value="b"> B) Rated capacity / max demand</label>
+            <label><input type="radio" name="m28" value="c"> C) Avg load / max demand</label>
+            <label><input type="radio" name="m28" value="d"> D) Max demand / connected load</label></div>
+
+          <div class="q"><p>29) Loss factor refers mainly to:</p>
+            <label><input type="radio" name="m29" value="a"> A) Variable copper losses</label>
+            <label><input type="radio" name="m29" value="b"> B) No-load transformer losses only</label>
+            <label><input type="radio" name="m29" value="c"> C) Mechanical losses</label>
+            <label><input type="radio" name="m29" value="d"> D) Dielectric losses only</label></div>
+
+          <div class="q"><p>30) Under steady load, relation is:</p>
+            <label><input type="radio" name="m30" value="a"> A) Loss Factor = (Load Factor)²</label>
+            <label><input type="radio" name="m30" value="b"> B) Loss Factor = Load Factor</label>
+            <label><input type="radio" name="m30" value="c"> C) Loss Factor = 1/Load Factor</label>
+            <label><input type="radio" name="m30" value="d"> D) Loss Factor = 0</label></div>
+
+          <div class="q"><p>31) For short-lasting peak:</p>
+            <label><input type="radio" name="m31" value="a"> A) Loss Factor = Load Factor</label>
+            <label><input type="radio" name="m31" value="b"> B) Loss Factor = (Load Factor)²</label>
+            <label><input type="radio" name="m31" value="c"> C) Loss Factor = 2×Load Factor</label>
+            <label><input type="radio" name="m31" value="d"> D) Loss Factor = 0.5×Load Factor</label></div>
+
+          <div class="q"><p>32) A lower demand factor means:</p>
+            <label><input type="radio" name="m32" value="a"> A) More system capacity required</label>
+            <label><input type="radio" name="m32" value="b"> B) Less system capacity required</label>
+            <label><input type="radio" name="m32" value="c"> C) No effect on capacity</label>
+            <label><input type="radio" name="m32" value="d"> D) Infinite capacity</label></div>
+
+          <div class="q"><p>33) If five 20 W lamps are connected and four are used, demand factor is:</p>
+            <label><input type="radio" name="m33" value="a"> A) 0.4</label>
+            <label><input type="radio" name="m33" value="b"> B) 0.6</label>
+            <label><input type="radio" name="m33" value="c"> C) 0.8</label>
+            <label><input type="radio" name="m33" value="d"> D) 1.0</label></div>
+
+          <div class="q"><p>34) Annual average load uses denominator:</p>
+            <label><input type="radio" name="m34" value="a"> A) 365</label>
+            <label><input type="radio" name="m34" value="b"> B) 24</label>
+            <label><input type="radio" name="m34" value="c"> C) 8760</label>
+            <label><input type="radio" name="m34" value="d"> D) 1440</label></div>
+
+          <div class="q"><p>35) In module example, diversity factor for 1500+750+100+450 with 2500 max is:</p>
+            <label><input type="radio" name="m35" value="a"> A) 0.89</label>
+            <label><input type="radio" name="m35" value="b"> B) 1.12</label>
+            <label><input type="radio" name="m35" value="c"> C) 1.50</label>
+            <label><input type="radio" name="m35" value="d"> D) 2.05</label></div>
+
+          <div class="q"><p>36) 16.16 kW at pf 0.9 corresponds to apparent power:</p>
+            <label><input type="radio" name="m36" value="a"> A) 14.54 kVA</label>
+            <label><input type="radio" name="m36" value="b"> B) 16.16 kVA</label>
+            <label><input type="radio" name="m36" value="c"> C) 17.96 kVA</label>
+            <label><input type="radio" name="m36" value="d"> D) 19.44 kVA</label></div>
+
+          <div class="q"><p>37) Utilization factor can be above 1 when:</p>
+            <label><input type="radio" name="m37" value="a"> A) Demand exceeds rated capacity</label>
+            <label><input type="radio" name="m37" value="b"> B) No-load operation</label>
+            <label><input type="radio" name="m37" value="c"> C) Power factor is zero</label>
+            <label><input type="radio" name="m37" value="d"> D) Diversity factor is one</label></div>
+
+          <div class="q"><p>38) Which term is demands imposed by a group over a period?</p>
+            <label><input type="radio" name="m38" value="a"> A) Diversified demand</label>
+            <label><input type="radio" name="m38" value="b"> B) Connected load</label>
+            <label><input type="radio" name="m38" value="c"> C) Load factor</label>
+            <label><input type="radio" name="m38" value="d"> D) Demand interval</label></div>
+
+          <div class="q"><p>39) Which one directly uses rated system capacity?</p>
+            <label><input type="radio" name="m39" value="a"> A) Demand factor</label>
+            <label><input type="radio" name="m39" value="b"> B) Diversity factor</label>
+            <label><input type="radio" name="m39" value="c"> C) Utilization factor</label>
+            <label><input type="radio" name="m39" value="d"> D) Load duration curve</label></div>
+
+          <div class="q"><p>40) The equal-area property applies to:</p>
+            <label><input type="radio" name="m40" value="a"> A) Load curve and load duration curve</label>
+            <label><input type="radio" name="m40" value="b"> B) Power factor curve and voltage curve</label>
+            <label><input type="radio" name="m40" value="c"> C) Demand interval and connected load</label>
+            <label><input type="radio" name="m40" value="d"> D) Diversity and utilization factors</label></div>
+        </div>
+        <div class="toolbar" style="margin-top: 0.8rem;">
+          <button class="btn" type="button" id="checkMcq">Check MCQ Score</button>
+        </div>
+        <p id="mcqResult" class="result"></p>
+      </form>
+    </section>
+
+    <section id="identification" class="card">
+      <h2>Part B - 20 Identification Questions</h2>
+      <p class="subtitle">Type your answer (term/phrase). Then click check.</p>
+      <form id="idForm" class="question-list">
+        <div class="q"><p>1) Load at receiving terminal averaged over specific time.</p><input data-answers="demand" type="text" /></div>
+        <div class="q"><p>2) Time interval specified for demand, often 15 or 30 minutes.</p><input data-answers="demand interval|demand intervals" type="text" /></div>
+        <div class="q"><p>3) Greatest demand in a period.</p><input data-answers="maximum demand|peak load" type="text" /></div>
+        <div class="q"><p>4) Sum of continuous ratings of all connected apparatus.</p><input data-answers="connected load" type="text" /></div>
+        <div class="q"><p>5) Ratio of maximum demand to connected load.</p><input data-answers="demand factor" type="text" /></div>
+        <div class="q"><p>6) Ratio of average load to maximum demand.</p><input data-answers="load factor" type="text" /></div>
+        <div class="q"><p>7) Ratio of sum of individual maxima to maximum system demand.</p><input data-answers="diversity factor" type="text" /></div>
+        <div class="q"><p>8) Ratio of maximum demand to rated system capacity.</p><input data-answers="utilization factor" type="text" /></div>
+        <div class="q"><p>9) Ratio of average power loss to power loss at peak load.</p><input data-answers="loss factor" type="text" /></div>
+        <div class="q"><p>10) Curve with load plotted in actual time sequence.</p><input data-answers="load curve" type="text" /></div>
+        <div class="q"><p>11) Curve with load values rearranged by magnitude sequence.</p><input data-answers="load duration curve" type="text" /></div>
+        <div class="q"><p>12) Category that includes shops, businesses, and hospitals.</p><input data-answers="commercial loads|commercial load" type="text" /></div>
+        <div class="q"><p>13) Category that is often seasonal in nature.</p><input data-answers="agricultural loads|agricultural load" type="text" /></div>
+        <div class="q"><p>14) Typical p.f. of fluorescent lamps in module.</p><input data-answers="0.6" type="text" /></div>
+        <div class="q"><p>15) Typical p.f. range of chemical industries.</p><input data-answers="0.70 to 0.85|0.7 to 0.85" type="text" /></div>
+        <div class="q"><p>16) Number of hours in one year used in average load calculations.</p><input data-answers="8760" type="text" /></div>
+        <div class="q"><p>17) Under steady load, loss factor equals this factor.</p><input data-answers="load factor" type="text" /></div>
+        <div class="q"><p>18) For short-lasting peak, loss factor equals this expression.</p><input data-answers="load factor squared|(load factor) squared|(load factor)2|load factor^2" type="text" /></div>
+        <div class="q"><p>19) Data source utilities conduct to understand customer loading behavior.</p><input data-answers="load survey|utility load survey" type="text" /></div>
+        <div class="q"><p>20) Demands imposed by a group of loads over a period.</p><input data-answers="diversified demand" type="text" /></div>
+      </form>
+      <div class="toolbar" style="margin-top: 0.8rem;">
+        <button class="btn" type="button" id="checkId">Check Identification</button>
+      </div>
+      <p id="idResult" class="result"></p>
+    </section>
+
+    <section id="problems" class="card">
+      <h2>Part C - 30 Problem Solving Questions</h2>
+      <p class="subtitle">
+        Compute numeric answers. Questions 21-30 are hard-level, with Q21 and Q22 as comprehensive
+        table-based items that integrate all formulas.
+      </p>
+      <form id="probForm" class="question-list">
+        <div class="q"><p>1) Connected load = 6000 W, max demand = 3300 W. Find demand factor.</p><input type="text" data-answer="0.55" data-tol="0.01" /></div>
+        <div class="q"><p>2) Connected load = 50 MW, max demand = 30 MW. Demand factor?</p><input type="text" data-answer="0.6" data-tol="0.01" /></div>
+        <div class="q"><p>3) Five 20 W bulbs connected, four used at a time. Demand factor?</p><input type="text" data-answer="0.8" data-tol="0.01" /></div>
+        <div class="q"><p>4) Annual energy = 45×10⁵ kWhr. Find annual average load.</p><span class="math">Average Load = <span class="frac"><span class="top">kWhr</span><span class="bottom">8760</span></span></span><input type="text" data-answer="513.7" data-tol="0.3" /></div>
+        <div class="q"><p>5) Max demand = 150 MW, annual load factor = 50%. Annual energy generated (kWhr)?</p><input type="text" data-answer="657000000" data-tol="5000000" /></div>
+        <div class="q"><p>6) Sum of individual max demands = 2800 kW, max system demand = 2500 kW. Diversity factor?</p><input type="text" data-answer="1.12" data-tol="0.02" /></div>
+        <div class="q"><p>7) Load = 16.16 kW at pf 0.9, rated capacity = 15 kVA. Utilization factor?</p><input type="text" data-answer="1.197" data-tol="0.02" /></div>
+        <div class="q"><p>8) Average load = 200 kW, maximum demand = 500 kW. Load factor?</p><input type="text" data-answer="0.4" data-tol="0.01" /></div>
+        <div class="q"><p>9) Connected load = 75 kW, max demand = 45 kW. Demand factor?</p><input type="text" data-answer="0.6" data-tol="0.01" /></div>
+        <div class="q"><p>10) Daily energy = 12000 kWhr. Find daily average load.</p><input type="text" data-answer="500" data-tol="1" /></div>
+        <div class="q"><p>11) Monthly energy = 300000 kWhr in 720 h. Monthly average load?</p><input type="text" data-answer="416.67" data-tol="1" /></div>
+        <div class="q"><p>12) Yearly energy = 5.256×10⁶ kWhr. Yearly average load?</p><input type="text" data-answer="600" data-tol="2" /></div>
+        <div class="q"><p>13) Load factor = 0.70 (steady load). Loss factor?</p><input type="text" data-answer="0.7" data-tol="0.01" /></div>
+        <div class="q"><p>14) Load factor = 0.60 (short-lasting peak). Loss factor = (LF)². Find value.</p><input type="text" data-answer="0.36" data-tol="0.01" /></div>
+        <div class="q"><p>15) Sum of individual maxima = 1800 kW, diversity factor = 1.2. Max system demand?</p><input type="text" data-answer="1500" data-tol="5" /></div>
+        <div class="q"><p>16) Maximum demand = 900 kW, utilization factor = 0.75. Rated capacity?</p><input type="text" data-answer="1200" data-tol="5" /></div>
+        <div class="q"><p>17) Connected load = 12 kW, demand factor = 0.65. Maximum demand?</p><input type="text" data-answer="7.8" data-tol="0.1" /></div>
+        <div class="q"><p>18) Max demand = 300 kW, load factor = 0.40. Average load?</p><input type="text" data-answer="120" data-tol="1" /></div>
+        <div class="q"><p>19) Average load = 1200 kW for one year. Annual energy (kWhr)?</p><input type="text" data-answer="10512000" data-tol="50000" /></div>
+        <div class="q"><p>20) Individual maxima are 900, 700, and 500 kW; max system demand = 1500 kW. Diversity factor?</p><input type="text" data-answer="1.4" data-tol="0.02" /></div>
+
+        <div class="q">
+          <p><strong>21) Comprehensive Hard Problem (table-based)</strong></p>
+          <p>Given feeder data:</p>
+          <table>
+            <thead>
+              <tr><th>Group</th><th>Connected Load (kW)</th><th>Demand Factor</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Industrial</td><td>800</td><td>0.75</td></tr>
+              <tr><td>Commercial</td><td>600</td><td>0.65</td></tr>
+              <tr><td>Residential</td><td>500</td><td>0.60</td></tr>
+              <tr><td>Lighting</td><td>300</td><td>0.80</td></tr>
+            </tbody>
+          </table>
+          <p>Also given: diversity factor = 1.20, annual energy = 7,884,000 kWhr, rated feeder capacity = 1500 kW.</p>
+          <p>
+            Compute all of these in order: sum of individual maximum demands, maximum system demand,
+            overall demand factor, average load, load factor, utilization factor, and loss factor for
+            short-lasting peak.
+          </p>
+          <p>Enter final answer asked: <strong>short-lasting peak loss factor</strong>.</p>
+          <input type="text" data-answer="0.4983" data-tol="0.01" />
+        </div>
+
+        <div class="q">
+          <p><strong>22) Comprehensive Hard Problem (table-based)</strong></p>
+          <p>Given substation data:</p>
+          <table>
+            <thead>
+              <tr><th>Transformer</th><th>Connected Load (kW)</th><th>Demand Factor</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>T1</td><td>1000</td><td>0.70</td></tr>
+              <tr><td>T2</td><td>900</td><td>0.60</td></tr>
+              <tr><td>T3</td><td>700</td><td>0.50</td></tr>
+            </tbody>
+          </table>
+          <p>Also given: diversity factor = 1.25, annual energy = 6,675,120 kWhr, rated capacity = 1400 kW.</p>
+          <p>
+            Compute all of these in order: sum of individual maxima, maximum system demand, overall demand factor,
+            average load, load factor, utilization factor, and short-lasting peak loss factor.
+          </p>
+          <p>Enter final answer asked: <strong>utilization factor</strong>.</p>
+          <input type="text" data-answer="0.909" data-tol="0.01" />
+        </div>
+
+        <div class="q"><p>23) Hard: Four groups have connected loads and demand factors: 600(0.8), 500(0.72), 450(0.667), 300(0.8). If diversity factor is 1.4, find maximum system demand (kW).</p><input type="text" data-answer="985.71" data-tol="1.5" /></div>
+        <div class="q"><p>24) Hard: Monthly energy is 558,000 kWhr over 720 h. If maximum demand is 1100 kW, find monthly load factor.</p><input type="text" data-answer="0.7045" data-tol="0.01" /></div>
+        <div class="q"><p>25) Hard: Annual load factor is 0.58 and maximum demand is 2200 kW. Find annual energy generated (kWhr).</p><input type="text" data-answer="11177760" data-tol="60000" /></div>
+        <div class="q"><p>26) Hard: Connected load is 1800 kW, demand factor is 0.62, and utilization factor is 0.72. Find rated capacity (kW).</p><input type="text" data-answer="1550" data-tol="5" /></div>
+        <div class="q"><p>27) Hard: Sum of individual max demands is 4600 kW and diversity factor is 1.25. If annual load factor is 0.65, find annual energy generated (kWhr).</p><input type="text" data-answer="20953920" data-tol="90000" /></div>
+        <div class="q"><p>28) Hard: For a short-lasting peak, measured loss factor is 0.3025. Find load factor.</p><input type="text" data-answer="0.55" data-tol="0.01" /></div>
+        <div class="q"><p>29) Hard: Average power loss is 96 kW and peak-load power loss is 240 kW. Assuming steady load and maximum demand of 1500 kW, find average load (kW).</p><input type="text" data-answer="600" data-tol="2" /></div>
+        <div class="q"><p>30) Hard: A transformer serves 18 MW at 0.8 power factor lagging. Rated capacity is 20 MVA. Find utilization factor.</p><input type="text" data-answer="1.125" data-tol="0.01" /></div>
+      </form>
+      <div class="toolbar" style="margin-top: 0.8rem;">
+        <button class="btn" type="button" id="checkProb">Check Problems</button>
+      </div>
+      <p id="probResult" class="result"></p>
+    </section>
+
+    <section id="answer-key" class="card">
+      <h2>Answer Key</h2>
+      <p class="key-intro">Answer key is now arranged strictly in order per item.</p>
+      <details>
+        <summary>MCQ Answer Key (1-40)</summary>
+        <div class="key-panel">
+          <ol class="answer-list">
+            <li>B</li><li>D</li><li>C</li><li>B</li><li>C</li>
+            <li>C</li><li>B</li><li>C</li><li>A</li><li>A</li>
+            <li>B</li><li>A</li><li>A</li><li>B</li><li>C</li>
+            <li>B</li><li>C</li><li>D</li><li>B</li><li>C</li>
+            <li>C</li><li>B</li><li>B</li><li>B</li><li>C</li>
+            <li>B</li><li>B</li><li>A</li><li>A</li><li>B</li>
+            <li>B</li><li>B</li><li>C</li><li>C</li><li>B</li>
+            <li>C</li><li>A</li><li>A</li><li>C</li><li>A</li>
+          </ol>
+        </div>
+      </details>
+      <details>
+        <summary>Identification Key (1-20)</summary>
+        <div class="key-panel">
+          <ol class="answer-list">
+            <li>Demand</li>
+            <li>Demand interval</li>
+            <li>Maximum demand / Peak load</li>
+            <li>Connected load</li>
+            <li>Demand factor</li>
+            <li>Load factor</li>
+            <li>Diversity factor</li>
+            <li>Utilization factor</li>
+            <li>Loss factor</li>
+            <li>Load curve</li>
+            <li>Load duration curve</li>
+            <li>Commercial load</li>
+            <li>Agricultural load</li>
+            <li>0.6</li>
+            <li>0.70 to 0.85</li>
+            <li>8760</li>
+            <li>Load factor</li>
+            <li>(Load Factor)²</li>
+            <li>Utility load survey</li>
+            <li>Diversified demand</li>
+          </ol>
+        </div>
+      </details>
+      <details>
+        <summary>Problem Solving Key (1-30)</summary>
+        <div class="key-panel">
+          <ol class="answer-list">
+            <li>0.55</li>
+            <li>0.6</li>
+            <li>0.8</li>
+            <li>
+              <span class="math">Average Load = <span class="frac"><span class="top">45×10⁵</span><span class="bottom">8760</span></span> = 513.7 kW</span>
+            </li>
+            <li>
+              <span class="math">Energy = 0.50 × 150 × 8760 = 657 × 10⁶ kWhr</span>
+            </li>
+            <li>
+              <span class="math">Diversity Factor = <span class="frac"><span class="top">2800</span><span class="bottom">2500</span></span> = 1.12</span>
+            </li>
+            <li>
+              <span class="math">UF = <span class="frac"><span class="top"><span class="frac"><span class="top">16.16</span><span class="bottom">0.9</span></span></span><span class="bottom">15</span></span> = 1.197</span>
+            </li>
+            <li>0.4</li>
+            <li>0.6</li>
+            <li>
+              <span class="math">Average Load = <span class="frac"><span class="top">12000</span><span class="bottom">24</span></span> = 500 kW</span>
+            </li>
+            <li>416.67 kW</li>
+            <li>600 kW</li>
+            <li>0.70</li>
+            <li>
+              <span class="math">Loss Factor = (0.60)² = 0.36</span>
+            </li>
+            <li>1500 kW</li>
+            <li>1200 kW</li>
+            <li>7.8 kW</li>
+            <li>120 kW</li>
+            <li>10,512,000 kWhr</li>
+            <li>1.4</li>
+            <li>0.4983</li>
+            <li>0.909</li>
+            <li>985.71 kW</li>
+            <li>0.7045</li>
+            <li>11,177,760 kWhr</li>
+            <li>1550 kW</li>
+            <li>20,953,920 kWhr</li>
+            <li>0.55</li>
+            <li>600 kW</li>
+            <li>1.125</li>
+          </ol>
+        </div>
+      </details>
+      <details>
+        <summary>Detailed Solutions for Hard Problems (21-30)</summary>
+        <div class="key-panel">
+          <ol class="sol-steps">
+            <li><strong>Q21:</strong>
+              <span class="math">Sum of individual maxima = 800(0.75)+600(0.65)+500(0.60)+300(0.80) = 1530 kW</span>
+              <span class="math">Maximum system demand = <span class="frac"><span class="top">1530</span><span class="bottom">1.20</span></span> = 1275 kW</span>
+              <span class="math">Demand factor = <span class="frac"><span class="top">1275</span><span class="bottom">2200</span></span> = 0.5795</span>
+              <span class="math">Average load = <span class="frac"><span class="top">7,884,000</span><span class="bottom">8760</span></span> = 900 kW</span>
+              <span class="math">Load factor = <span class="frac"><span class="top">900</span><span class="bottom">1275</span></span> = 0.7059</span>
+              <span class="math">Utilization factor = <span class="frac"><span class="top">1275</span><span class="bottom">1500</span></span> = 0.85</span>
+              <span class="math">Short-peak loss factor = (0.7059)² = 0.4983</span>
+            </li>
+            <li><strong>Q22:</strong>
+              <span class="math">Sum of individual maxima = 1000(0.70)+900(0.60)+700(0.50) = 1590 kW</span>
+              <span class="math">Maximum system demand = <span class="frac"><span class="top">1590</span><span class="bottom">1.25</span></span> = 1272 kW</span>
+              <span class="math">Demand factor = <span class="frac"><span class="top">1272</span><span class="bottom">2600</span></span> = 0.4892</span>
+              <span class="math">Average load = <span class="frac"><span class="top">6,675,120</span><span class="bottom">8760</span></span> = 762 kW</span>
+              <span class="math">Load factor = <span class="frac"><span class="top">762</span><span class="bottom">1272</span></span> = 0.5991</span>
+              <span class="math">Utilization factor = <span class="frac"><span class="top">1272</span><span class="bottom">1400</span></span> = 0.9086 ≈ 0.909</span>
+              <span class="math">Short-peak loss factor = (0.5991)² = 0.3589</span>
+            </li>
+            <li><strong>Q23:</strong>
+              <span class="math">Individual maxima = 600(0.8)+500(0.72)+450(0.667)+300(0.8) = 1380 kW</span>
+              <span class="math">Maximum system demand = <span class="frac"><span class="top">1380</span><span class="bottom">1.4</span></span> = 985.71 kW</span>
+            </li>
+            <li><strong>Q24:</strong>
+              <span class="math">Average load = <span class="frac"><span class="top">558,000</span><span class="bottom">720</span></span> = 775 kW</span>
+              <span class="math">Load factor = <span class="frac"><span class="top">775</span><span class="bottom">1100</span></span> = 0.7045</span>
+            </li>
+            <li><strong>Q25:</strong> <span class="math">Annual energy = 0.58 × 2200 × 8760 = 11,177,760 kWhr</span></li>
+            <li><strong>Q26:</strong>
+              <span class="math">Maximum demand = 0.62 × 1800 = 1116 kW</span>
+              <span class="math">Rated capacity = <span class="frac"><span class="top">1116</span><span class="bottom">0.72</span></span> = 1550 kW</span>
+            </li>
+            <li><strong>Q27:</strong>
+              <span class="math">Maximum system demand = <span class="frac"><span class="top">4600</span><span class="bottom">1.25</span></span> = 3680 kW</span>
+              <span class="math">Annual energy = 0.65 × 3680 × 8760 = 20,953,920 kWhr</span>
+            </li>
+            <li><strong>Q28:</strong> <span class="math">Load factor = √0.3025 = 0.55</span></li>
+            <li><strong>Q29:</strong>
+              <span class="math">Loss factor = <span class="frac"><span class="top">96</span><span class="bottom">240</span></span> = 0.4</span>
+              <span class="math">Under steady load: Load factor = 0.4</span>
+              <span class="math">Average load = 0.4 × 1500 = 600 kW</span>
+            </li>
+            <li><strong>Q30:</strong>
+              <span class="math">S = <span class="frac"><span class="top">P</span><span class="bottom">pf</span></span> = <span class="frac"><span class="top">18</span><span class="bottom">0.8</span></span> = 22.5 MVA</span>
+              <span class="math">Utilization factor = <span class="frac"><span class="top">22.5</span><span class="bottom">20</span></span> = 1.125</span>
+            </li>
+          </ol>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <script>
+    const mcqAnswers = {
+      m1: "b", m2: "d", m3: "c", m4: "b", m5: "c", m6: "c", m7: "b", m8: "c", m9: "a", m10: "a",
+      m11: "b", m12: "a", m13: "a", m14: "b", m15: "c", m16: "b", m17: "c", m18: "d", m19: "b", m20: "c",
+      m21: "c", m22: "b", m23: "b", m24: "b", m25: "c", m26: "b", m27: "b", m28: "a", m29: "a", m30: "b",
+      m31: "b", m32: "b", m33: "c", m34: "c", m35: "b", m36: "c", m37: "a", m38: "a", m39: "c", m40: "a"
+    };
+
+    function onlyNumber(raw) {
+      const cleaned = raw.replace(/[, ]+/g, "").replace(/x10⁶/gi, "e6").replace(/x10⁵/gi, "e5");
+      const match = cleaned.match(/-?\d+(\.\d+)?(e[+-]?\d+)?/i);
+      return match ? parseFloat(match[0]) : NaN;
+    }
+
+    function clearState(containerSelector) {
+      document.querySelectorAll(`${containerSelector} .q`).forEach((q) => {
+        q.classList.remove("is-correct", "is-wrong");
+      });
+      document.querySelectorAll(`${containerSelector} input`).forEach((input) => {
+        input.classList.remove("is-correct", "is-wrong");
+        input.style.borderColor = "";
+      });
+    }
+
+    function setState(qCard, input, ok) {
+      if (!qCard || !input) return;
+      qCard.classList.remove("is-correct", "is-wrong");
+      input.classList.remove("is-correct", "is-wrong");
+      qCard.classList.add(ok ? "is-correct" : "is-wrong");
+      input.classList.add(ok ? "is-correct" : "is-wrong");
+    }
+
+    function clearInputState(qCard, input) {
+      if (!qCard || !input) return;
+      qCard.classList.remove("is-correct", "is-wrong");
+      input.classList.remove("is-correct", "is-wrong");
+    }
+
+    // Live feedback for MCQ immediately after picking an option.
+    document.querySelectorAll('#mcqForm input[type="radio"]').forEach((radio) => {
+      radio.addEventListener("change", (e) => {
+        const name = e.target.name;
+        const correct = mcqAnswers[name];
+        const qCard = e.target.closest(".q");
+        const selected = document.querySelector(`#mcqForm input[name="${name}"]:checked`);
+        if (!selected || !qCard) return;
+        qCard.classList.remove("is-correct", "is-wrong");
+        qCard.classList.add(selected.value === correct ? "is-correct" : "is-wrong");
+      });
+    });
+
+    // Live feedback for identification while typing.
+    document.querySelectorAll("#idForm input").forEach((input) => {
+      input.addEventListener("input", (e) => {
+        const field = e.target;
+        const qCard = field.closest(".q");
+        const user = field.value.trim().toLowerCase();
+        if (!user) {
+          clearInputState(qCard, field);
+          return;
+        }
+        const valid = field.dataset.answers.split("|").map((s) => s.trim().toLowerCase());
+        const hit = valid.some((ans) => user === ans || user.includes(ans));
+        setState(qCard, field, hit);
+      });
+    });
+
+    // Live feedback for problem solving while typing.
+    document.querySelectorAll("#probForm input").forEach((input) => {
+      input.addEventListener("input", (e) => {
+        const field = e.target;
+        const qCard = field.closest(".q");
+        const raw = field.value.trim();
+        if (!raw) {
+          clearInputState(qCard, field);
+          return;
+        }
+        const expected = parseFloat(field.dataset.answer);
+        const tol = parseFloat(field.dataset.tol || "0.01");
+        const actual = onlyNumber(raw);
+        const ok = Number.isFinite(actual) && Math.abs(actual - expected) <= tol;
+        setState(qCard, field, ok);
+      });
+    });
+
+    document.getElementById("checkMcq").addEventListener("click", () => {
+      const form = document.getElementById("mcqForm");
+      clearState("#mcqForm");
+      let score = 0;
+      let answered = 0;
+      Object.entries(mcqAnswers).forEach(([k, v]) => {
+        const qInput = form.querySelector(`input[name="${k}"]`);
+        const qCard = qInput ? qInput.closest(".q") : null;
+        const selected = form.querySelector(`input[name="${k}"]:checked`);
+        if (selected) {
+          answered += 1;
+          if (selected.value === v) {
+            score += 1;
+            qCard && qCard.classList.add("is-correct");
+          } else {
+            qCard && qCard.classList.add("is-wrong");
+          }
+        }
+      });
+      const result = document.getElementById("mcqResult");
+      const pct = Math.round((score / 40) * 100);
+      result.className = "result " + (score >= 30 ? "ok" : "bad");
+      result.textContent = `MCQ Score: ${score}/40 (${pct}%). Answered: ${answered}/40.`;
+    });
+
+    document.getElementById("checkId").addEventListener("click", () => {
+      const inputs = [...document.querySelectorAll("#idForm input")];
+      clearState("#idForm");
+      let score = 0;
+      inputs.forEach((input) => {
+        const user = input.value.trim().toLowerCase();
+        const valid = input.dataset.answers.split("|").map((s) => s.trim().toLowerCase());
+        const hit = valid.some((ans) => user === ans || user.includes(ans));
+        const qCard = input.closest(".q");
+        input.classList.add(hit ? "is-correct" : "is-wrong");
+        qCard && qCard.classList.add(hit ? "is-correct" : "is-wrong");
+        if (hit) score += 1;
+      });
+      const result = document.getElementById("idResult");
+      const pct = Math.round((score / 20) * 100);
+      result.className = "result " + (score >= 15 ? "ok" : "bad");
+      result.textContent = `Identification Score: ${score}/20 (${pct}%).`;
+    });
+
+    document.getElementById("checkProb").addEventListener("click", () => {
+      const inputs = [...document.querySelectorAll("#probForm input")];
+      clearState("#probForm");
+      const total = inputs.length;
+      let score = 0;
+      inputs.forEach((input) => {
+        const expected = parseFloat(input.dataset.answer);
+        const tol = parseFloat(input.dataset.tol || "0.01");
+        const actual = onlyNumber(input.value);
+        const ok = Number.isFinite(actual) && Math.abs(actual - expected) <= tol;
+        const qCard = input.closest(".q");
+        input.classList.add(ok ? "is-correct" : "is-wrong");
+        qCard && qCard.classList.add(ok ? "is-correct" : "is-wrong");
+        if (ok) score += 1;
+      });
+      const result = document.getElementById("probResult");
+      const pct = Math.round((score / total) * 100);
+      const passMark = Math.ceil(total * 0.75);
+      result.className = "result " + (score >= passMark ? "ok" : "bad");
+      result.textContent = `Problem Solving Score: ${score}/${total} (${pct}%).`;
+    });
+  </script>
+</body>
+</html>
