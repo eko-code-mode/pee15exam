@@ -151,6 +151,7 @@
       background: var(--bg-soft);
       color: var(--text);
       outline: none;
+      font-size: 16px;
     }
 
     .tools input:focus {
@@ -276,6 +277,7 @@
 
     .table-wrap {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     table {
@@ -392,6 +394,46 @@
 
       .container {
         width: min(980px, 95%);
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        line-height: 1.5;
+      }
+
+      h1 {
+        font-size: 1.32rem;
+      }
+
+      h2 {
+        font-size: 1.12rem;
+      }
+
+      .subtitle,
+      .search-status {
+        font-size: 0.93rem;
+      }
+
+      .card {
+        padding: 0.85rem;
+      }
+
+      .equation,
+      .formula-list code,
+      #examples code {
+        font-size: 0.95rem;
+      }
+
+      th,
+      td {
+        padding: 0.48rem;
+        font-size: 0.9rem;
+      }
+
+      .to-top {
+        width: 40px;
+        height: 40px;
       }
     }
   </style>
